@@ -1,26 +1,377 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+	/* Re:Generation Logo Colors */
+	--regen-dark-grey: #4A5C5C;
+	--regen-medium-green: #6BA34A;
+	--regen-light-green: #8DC63F;
+	
+	/* Theme Colors */
+	--background: #0f1419;
+	--foreground: #ffffff;
+	--accent: #6BA34A;
+	--accent-secondary: #8DC63F;
+	--accent-tertiary: #6BA34A;
+	--accent-dark: #4A5C5C;
+	--success: #6BA34A;
+	--warning: #8DC63F;
+	--error: #ff6b9d;
+	--border: #2a3a3a;
+	--card: #1a2424;
+	--muted: #6B7A7A;
+	
+	/* Legacy color mappings for compatibility */
+	--neon-pink: #6BA34A;
+	--neon-cyan: #6BA34A;
+	--neon-yellow: #8DC63F;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--font-sans: var(--font-geist-sans);
+	--font-mono: var(--font-geist-mono);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+	background: var(--background);
+	color: var(--foreground);
+	font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+	min-height: 100vh;
+	line-height: 1.6;
+	background-image: 
+		radial-gradient(circle at 20% 50%, rgba(107, 163, 74, 0.08) 0%, transparent 50%),
+		radial-gradient(circle at 80% 80%, rgba(141, 198, 63, 0.08) 0%, transparent 50%),
+		radial-gradient(circle at 40% 20%, rgba(74, 92, 92, 0.05) 0%, transparent 50%);
+}
+
+/* Smooth scrolling */
+html {
+	scroll-behavior: smooth;
+}
+
+/* Custom scrollbar - retro style */
+::-webkit-scrollbar {
+	width: 12px;
+}
+
+::-webkit-scrollbar-track {
+	background: var(--background);
+	border-left: 1px solid var(--border);
+}
+
+::-webkit-scrollbar-thumb {
+	background: linear-gradient(180deg, var(--regen-medium-green), var(--regen-light-green));
+	border-radius: 6px;
+	border: 2px solid var(--background);
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: linear-gradient(180deg, var(--regen-dark-grey), var(--regen-medium-green));
+}
+
+/* Focus styles - green glow */
+*:focus-visible {
+	outline: 2px solid var(--regen-medium-green);
+	outline-offset: 2px;
+	border-radius: 4px;
+	box-shadow: 0 0 10px rgba(107, 163, 74, 0.5);
+}
+
+/* Link styles */
+a {
+	transition: all 0.2s ease;
+}
+
+a:hover {
+	color: var(--regen-medium-green);
+}
+
+/* Button animations - retro bounce */
+button {
+	transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+	font-weight: 600;
+	letter-spacing: 0.5px;
+}
+
+button:hover {
+	transform: scale(1.05);
+}
+
+button:active {
+	transform: scale(0.95);
+}
+
+/* Form input styles - retro neon borders */
+input,
+textarea,
+select {
+	transition: all 0.3s ease;
+	background: var(--card);
+	border: 2px solid var(--border);
+	color: var(--foreground);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+	border-color: var(--regen-medium-green);
+	box-shadow: 
+		0 0 10px rgba(107, 163, 74, 0.3),
+		inset 0 0 10px rgba(107, 163, 74, 0.1);
+	outline: none;
+}
+
+/* Card hover effects - retro lift */
+.card-hover {
+	transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+	position: relative;
+	overflow: hidden;
+}
+
+.card-hover::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: -100%;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(90deg, transparent, rgba(107, 163, 74, 0.1), transparent);
+	transition: left 0.5s;
+}
+
+.card-hover:hover::before {
+	left: 100%;
+}
+
+.card-hover:hover {
+	transform: translateY(-4px) scale(1.02);
+	box-shadow: 
+		0 20px 40px rgba(0, 0, 0, 0.3),
+		0 0 20px rgba(107, 163, 74, 0.2),
+		0 0 40px rgba(141, 198, 63, 0.1);
+}
+
+/* Prayer card styling - retro gradient border */
+.prayer-card {
+	background: var(--card);
+	border: 2px solid var(--border);
+	position: relative;
+}
+
+.prayer-card::before {
+	content: "";
+	position: absolute;
+	inset: -2px;
+	background: linear-gradient(45deg, var(--regen-medium-green), var(--regen-light-green), var(--regen-medium-green), var(--regen-light-green));
+	background-size: 300% 300%;
+	border-radius: inherit;
+	z-index: -1;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+	animation: gradient-rotate 3s ease infinite;
+}
+
+.prayer-card:hover::before {
+	opacity: 0.3;
+}
+
+@keyframes gradient-rotate {
+	0%, 100% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+}
+
+/* Typography improvements - retro bold */
+h1,
+h2,
+h3 {
+	letter-spacing: -0.02em;
+	font-weight: 800;
+}
+
+/* Gradient text for headings - simple gradient */
+.gradient-text {
+	background: linear-gradient(135deg, var(--regen-medium-green), var(--regen-light-green));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+}
+
+/* Retro neon glow utility */
+.neon-glow {
+	text-shadow: 
+		0 0 5px currentColor,
+		0 0 10px currentColor,
+		0 0 15px currentColor;
+}
+
+.neon-glow-pink {
+	color: var(--regen-medium-green);
+}
+
+.neon-glow-cyan {
+	color: var(--regen-light-green);
+}
+
+/* Retro pattern background */
+.retro-pattern {
+	background-image: 
+		repeating-linear-gradient(
+			45deg,
+			transparent,
+			transparent 10px,
+			rgba(107, 163, 74, 0.03) 10px,
+			rgba(107, 163, 74, 0.03) 20px
+		);
+}
+
+/* Button retro styles */
+.btn-retro {
+	background: linear-gradient(135deg, var(--regen-medium-green), var(--regen-dark-grey));
+	border: 2px solid var(--regen-medium-green);
+	color: white;
+	box-shadow: 
+		0 0 10px rgba(107, 163, 74, 0.5),
+		inset 0 0 10px rgba(255, 255, 255, 0.1);
+	text-transform: uppercase;
+	font-weight: 700;
+	letter-spacing: 1px;
+}
+
+.btn-retro:hover {
+	box-shadow: 
+		0 0 20px rgba(107, 163, 74, 0.8),
+		inset 0 0 20px rgba(255, 255, 255, 0.2);
+	background: linear-gradient(135deg, var(--regen-dark-grey), var(--regen-medium-green));
+}
+
+.btn-retro-cyan {
+	background: linear-gradient(135deg, var(--regen-medium-green), var(--regen-light-green));
+	border: 2px solid var(--regen-medium-green);
+	box-shadow: 
+		0 0 10px rgba(107, 163, 74, 0.5),
+		inset 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.btn-retro-cyan:hover {
+	box-shadow: 
+		0 0 20px rgba(107, 163, 74, 0.8),
+		inset 0 0 20px rgba(255, 255, 255, 0.2);
+	background: linear-gradient(135deg, var(--regen-light-green), var(--regen-medium-green));
+}
+
+/* Retro card border animation */
+@keyframes border-pulse {
+	0%, 100% {
+		border-color: var(--border);
+	}
+	50% {
+		border-color: var(--regen-medium-green);
+	}
+}
+
+.retro-border-animate {
+	animation: border-pulse 2s ease-in-out infinite;
+}
+
+/* Install banner animation */
+@keyframes slide-up {
+	from {
+		transform: translateY(100%);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+.install-banner-enter {
+	animation: slide-up 0.3s ease-out;
+}
+
+/* Markdown content spacing */
+.prose p {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+.prose p:first-child {
+	margin-top: 0;
+}
+
+.prose p:last-child {
+	margin-bottom: 0;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+	margin-top: 1.5em;
+	margin-bottom: 0.75em;
+}
+
+.prose h1:first-child,
+.prose h2:first-child,
+.prose h3:first-child,
+.prose h4:first-child {
+	margin-top: 0;
+}
+
+.prose ul,
+.prose ol {
+	margin-top: 1em;
+	margin-bottom: 1em;
+	padding-left: 1.5em;
+}
+
+.prose li {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.prose blockquote {
+	margin-top: 1em;
+	margin-bottom: 1em;
+	padding-left: 1em;
+	border-left: 4px solid var(--regen-medium-green);
+}
+
+.prose code {
+	background: var(--card);
+	padding: 0.125em 0.25em;
+	border-radius: 0.25em;
+	font-size: 0.875em;
+}
+
+.prose pre {
+	background: var(--card);
+	padding: 1em;
+	border-radius: 0.5em;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	overflow-x: auto;
+}
+
+.prose a {
+	color: var(--regen-medium-green);
+	text-decoration: underline;
+}
+
+.prose a:hover {
+	color: var(--regen-light-green);
+}
+
+.prose strong {
+	font-weight: 700;
+	color: var(--foreground);
+}
+
+.prose em {
+	font-style: italic;
 }

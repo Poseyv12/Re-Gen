@@ -9,18 +9,32 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@portabletext/react": "^5.0.0",
+    "@sanity/client": "^7.12.1",
+    "@sanity/vision": "^4.13.0",
+    "@types/bcryptjs": "^2.4.6",
+    "bcryptjs": "^3.0.3",
+    "groq": "^4.13.0",
+    "lucide-react": "^0.552.0",
+    "marked": "^16.4.1",
+    "next": "16.0.1",
+    "next-auth": "^5.0.0-beta.30",
+    "next-sanity": "^11.6.5",
+    "openai": "^6.8.1",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "next": "16.0.1"
+    "react-hot-toast": "^2.6.0",
+    "react-icons": "^5.5.0",
+    "sanity": "^4.13.0"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
     "eslint": "^9",
-    "eslint-config-next": "16.0.1"
+    "eslint-config-next": "16.0.1",
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }

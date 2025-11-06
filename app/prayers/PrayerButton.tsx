@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { FiHeart, FiCheck } from "react-icons/fi";
 import { incrementPrayer } from "./actions";
+import Tooltip from "@/components/Tooltip";
 
 interface PrayerButtonProps {
 	prayerId: string;
@@ -33,20 +34,22 @@ export default function PrayerButton({ prayerId, initialCount }: PrayerButtonPro
 	};
 
 	return (
-		<button
-			type="button"
-			onClick={handleClick}
-			disabled={hasPrayed || isPending}
-			className={`inline-flex items-center gap-2 rounded-full border-2 px-4 py-2 text-xs font-bold shadow-lg transition-all uppercase tracking-wider ${
-				hasPrayed
-					? "border-[var(--neon-yellow)] bg-[var(--neon-yellow)] text-[var(--background)] cursor-default"
-					: "border-[var(--neon-cyan)] bg-[var(--card)] text-[var(--neon-cyan)] hover:bg-[var(--neon-cyan)] hover:text-[var(--background)] hover:shadow-[0_0_20px_rgba(107,163,74,0.5)]"
-			}`}
-			aria-label="Mark as prayed"
-		>
-			{hasPrayed ? <FiCheck className="w-4 h-4" /> : <FiHeart className="w-4 h-4" />}
-			<span>{hasPrayed ? `Prayed (${count})` : `I prayed${count > 0 ? ` (${count})` : ""}`}</span>
-		</button>
+		<Tooltip content={hasPrayed ? "You've already prayed for this" : "Click to mark that you prayed for this request"} position="top">
+			<button
+				type="button"
+				onClick={handleClick}
+				disabled={hasPrayed || isPending}
+				className={`inline-flex items-center gap-2 rounded-full border-2 px-4 py-2 text-xs font-bold shadow-lg transition-all uppercase tracking-wider ${
+					hasPrayed
+						? "border-[var(--neon-yellow)] bg-[var(--neon-yellow)] text-[var(--background)] cursor-default"
+						: "border-[var(--neon-cyan)] bg-[var(--card)] text-[var(--neon-cyan)] hover:bg-[var(--neon-cyan)] hover:text-[var(--background)] hover:shadow-[0_0_20px_rgba(107,163,74,0.5)]"
+				}`}
+				aria-label="Mark as prayed"
+			>
+				{hasPrayed ? <FiCheck className="w-4 h-4" /> : <FiHeart className="w-4 h-4" />}
+				<span>{hasPrayed ? `Prayed (${count})` : `I prayed${count > 0 ? ` (${count})` : ""}`}</span>
+			</button>
+		</Tooltip>
 	);
 }
 

@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { FiHeart } from "react-icons/fi";
 import { likeComment, replyToComment } from "./actions";
 import type { Comment } from "@/lib/types";
+import Tooltip from "@/components/Tooltip";
 
 interface CommentItemProps {
 	comment: Comment;
@@ -78,26 +79,30 @@ export default function CommentItem({ comment, prayerId, level = 0 }: CommentIte
 				<p className="text-sm text-[var(--foreground)] mb-3">{comment.content}</p>
 
 				<div className="flex items-center gap-4">
-					<button
-						onClick={handleLike}
-						disabled={!session?.user || loading}
-						className={`inline-flex items-center gap-1.5 rounded px-2 py-1 text-xs font-bold transition-all ${
-							isLiked
-								? "bg-[var(--neon-pink)]/20 text-[var(--neon-pink)] border border-[var(--neon-pink)]/30"
-								: "bg-[var(--card)] text-[var(--muted)] border border-[var(--border)] hover:bg-[var(--neon-pink)]/10 hover:text-[var(--neon-pink)]"
-						} disabled:opacity-50`}
-					>
-						<FiHeart className={`w-4 h-4 ${isLiked ? "fill-[var(--neon-pink)]" : ""}`} />
-						<span>{likeCount}</span>
-					</button>
+					<Tooltip content={!session?.user ? "Sign in to like comments" : isLiked ? "Unlike this comment" : "Like this comment"} position="top">
+						<button
+							onClick={handleLike}
+							disabled={!session?.user || loading}
+							className={`inline-flex items-center gap-1.5 rounded px-2 py-1 text-xs font-bold transition-all ${
+								isLiked
+									? "bg-[var(--neon-pink)]/20 text-[var(--neon-pink)] border border-[var(--neon-pink)]/30"
+									: "bg-[var(--card)] text-[var(--muted)] border border-[var(--border)] hover:bg-[var(--neon-pink)]/10 hover:text-[var(--neon-pink)]"
+							} disabled:opacity-50`}
+						>
+							<FiHeart className={`w-4 h-4 ${isLiked ? "fill-[var(--neon-pink)]" : ""}`} />
+							<span>{likeCount}</span>
+						</button>
+					</Tooltip>
 
 					{session?.user && (
-						<button
-							onClick={() => setShowReplyForm(!showReplyForm)}
-							className="text-xs text-[var(--neon-cyan)] hover:text-[var(--neon-pink)] font-bold transition-colors uppercase tracking-wider"
-						>
-							Reply
-						</button>
+						<Tooltip content={showReplyForm ? "Cancel reply" : "Reply to this comment"} position="top">
+							<button
+								onClick={() => setShowReplyForm(!showReplyForm)}
+								className="text-xs text-[var(--neon-cyan)] hover:text-[var(--neon-pink)] font-bold transition-colors uppercase tracking-wider"
+							>
+								Reply
+							</button>
+						</Tooltip>
 					)}
 				</div>
 

@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { FiSend, FiMessageCircle } from "react-icons/fi";
 import { marked } from "marked";
+import Tooltip from "@/components/Tooltip";
 
 // Configure marked for safer rendering
 marked.setOptions({
@@ -156,6 +157,11 @@ export default function BibleChatPage() {
 								<FiMessageCircle className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 text-[var(--neon-cyan)]" />
 							</div>
 							<h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-[var(--foreground)] mb-2">Start a conversation</h2>
+							<div className="rounded-lg border border-[var(--neon-yellow)]/30 bg-[var(--neon-yellow)]/10 px-3 py-2 max-w-md mb-3 sm:mb-4">
+								<p className="text-xs text-[var(--muted)] leading-relaxed">
+									<strong className="text-[var(--neon-yellow)]">AI Disclaimer:</strong> This is an AI assistant. While it strives for accuracy, responses may sometimes be incorrect. Always verify important biblical teachings and consult trusted Christian leaders for guidance.
+								</p>
+							</div>
 							<p className="text-xs sm:text-sm text-[var(--muted)] mb-3 sm:mb-4 max-w-md">
 								I'm a Re:Generation master mentor and biblical scholar. Ask me about the Bible, Re:Generation steps, foundation verses, recovery, or anything related to your journey. I'm here to help!
 							</p>
@@ -247,18 +253,25 @@ export default function BibleChatPage() {
 							className="flex-1 rounded-lg border-2 border-[var(--border)] bg-[var(--background)] px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-[var(--foreground)] placeholder:text-[var(--muted)] resize-none focus:border-[var(--neon-cyan)] focus:outline-none max-h-32"
 							disabled={loading}
 						/>
-						<button
-							type="submit"
-							disabled={loading || !input.trim()}
-							className="rounded-lg border-2 border-[var(--neon-cyan)] bg-[var(--neon-cyan)] px-3 sm:px-4 lg:px-6 py-2.5 sm:py-3 text-white text-xs sm:text-sm font-bold uppercase tracking-wider hover:bg-[var(--neon-cyan)]/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1 sm:gap-2 flex-shrink-0"
-						>
-							<FiSend className="w-4 h-4 sm:w-5 sm:h-5" />
-							<span className="hidden sm:inline">Send</span>
-						</button>
+						<Tooltip content={loading ? "Sending..." : !input.trim() ? "Enter a message to send" : "Send your message"} position="top">
+							<button
+								type="submit"
+								disabled={loading || !input.trim()}
+								className="rounded-lg border-2 border-[var(--neon-cyan)] bg-[var(--neon-cyan)] px-3 sm:px-4 lg:px-6 py-2.5 sm:py-3 text-white text-xs sm:text-sm font-bold uppercase tracking-wider hover:bg-[var(--neon-cyan)]/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1 sm:gap-2 flex-shrink-0"
+							>
+								<FiSend className="w-4 h-4 sm:w-5 sm:h-5" />
+								<span className="hidden sm:inline">Send</span>
+							</button>
+						</Tooltip>
 					</form>
-					<p className="text-xs text-[var(--muted)] mt-2 text-center">
-						Press Enter to send, Shift+Enter for new line
-					</p>
+					<div className="mt-2 text-center">
+						<p className="text-xs text-[var(--muted)]">
+							Press Enter to send, Shift+Enter for new line
+						</p>
+						<p className="text-xs text-[var(--muted)] opacity-75 italic mt-1">
+							AI responses may contain errors. Verify important information.
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>

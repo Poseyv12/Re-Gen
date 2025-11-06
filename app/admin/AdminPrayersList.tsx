@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import type { PrayerRequestDoc } from "@/lib/types";
 import { FiCheck, FiX, FiTrash2 } from "react-icons/fi";
 import { approve, reject, deletePrayer } from "./actions";
+import Tooltip from "@/components/Tooltip";
 
 interface AdminPrayersListProps {
 	prayers: PrayerRequestDoc[];
@@ -171,34 +172,40 @@ export default function AdminPrayersList({ prayers: initialPrayers, showModerati
 					<div className="flex gap-3 pt-4 border-t border-[var(--border)]">
 						{showModerationActions && p.status === "pending" && (
 							<>
-								<button
-									onClick={() => handleApprove(p._id)}
-									disabled={isPending}
-									className="btn-retro-cyan flex-1 w-full rounded-lg px-4 py-2.5 font-bold text-white uppercase tracking-wider flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-								>
-									<FiCheck className="w-4 h-4" />
-									Approve
-								</button>
-								<button
-									onClick={() => handleReject(p._id)}
-									disabled={isPending}
-									className="btn-retro flex-1 w-full rounded-lg px-4 py-2.5 font-bold text-white uppercase tracking-wider flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-								>
-									<FiX className="w-4 h-4" />
-									Reject
-								</button>
+								<Tooltip content="Approve this prayer request to publish it on the prayer wall" position="top">
+									<button
+										onClick={() => handleApprove(p._id)}
+										disabled={isPending}
+										className="btn-retro-cyan flex-1 w-full rounded-lg px-4 py-2.5 font-bold text-white uppercase tracking-wider flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+									>
+										<FiCheck className="w-4 h-4" />
+										Approve
+									</button>
+								</Tooltip>
+								<Tooltip content="Reject this prayer request (it will not be published)" position="top">
+									<button
+										onClick={() => handleReject(p._id)}
+										disabled={isPending}
+										className="btn-retro flex-1 w-full rounded-lg px-4 py-2.5 font-bold text-white uppercase tracking-wider flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+									>
+										<FiX className="w-4 h-4" />
+										Reject
+									</button>
+								</Tooltip>
 							</>
 						)}
-						<button
-							onClick={() => handleDelete(p._id)}
-							disabled={isPending}
-							className={`w-full rounded-lg border-2 border-red-500/50 bg-[var(--card)] px-4 py-2.5 font-bold text-red-500 uppercase tracking-wider hover:bg-red-500/10 hover:border-red-500 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed ${
-								showModerationActions && p.status === "pending" ? "" : "flex-1"
-							}`}
-						>
-							<FiTrash2 className="w-4 h-4" />
-							Delete
-						</button>
+						<Tooltip content="Permanently delete this prayer request and all associated comments" position="top">
+							<button
+								onClick={() => handleDelete(p._id)}
+								disabled={isPending}
+								className={`w-full rounded-lg border-2 border-red-500/50 bg-[var(--card)] px-4 py-2.5 font-bold text-red-500 uppercase tracking-wider hover:bg-red-500/10 hover:border-red-500 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed ${
+									showModerationActions && p.status === "pending" ? "" : "flex-1"
+								}`}
+							>
+								<FiTrash2 className="w-4 h-4" />
+								Delete
+							</button>
+						</Tooltip>
 					</div>
 				</div>
 			))}

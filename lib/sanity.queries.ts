@@ -135,3 +135,14 @@ export const queryAllReflections = groq`
     isPublished
   }
 `;
+
+export const queryAllUsers = groq`
+  *[_type == "user"] | order(_createdAt desc) {
+    _id,
+    name,
+    email,
+    image,
+    createdAt,
+    _createdAt
+  }
+`;

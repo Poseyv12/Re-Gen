@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { FiBookOpen, FiEdit, FiEye, FiEyeOff, FiPlus, FiTrash2 } from "react-icons/fi";
 import ReflectionForm from "./ReflectionForm";
+import ReflectionActions from "./ReflectionActions";
 
 async function togglePublish(id: string, isPublished: boolean) {
 	"use server";
@@ -132,39 +133,12 @@ export default async function AdminReflectionsPage() {
 								</div>
 							</div>
 
-							<div className="flex gap-3 pt-4 border-t border-[var(--border)]">
-								<form action={togglePublish.bind(null, reflection._id, reflection.isPublished)} className="flex-1">
-									<button
-										type="submit"
-										className={`w-full rounded-lg px-4 py-2.5 text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all ${
-											reflection.isPublished
-												? "border-2 border-[var(--border)] bg-[var(--card)] text-[var(--muted)] hover:border-[var(--muted)]"
-												: "btn-retro-cyan text-white"
-										}`}
-									>
-										{reflection.isPublished ? (
-											<>
-												<FiEyeOff className="w-4 h-4" />
-												Unpublish
-											</>
-										) : (
-											<>
-												<FiEye className="w-4 h-4" />
-												Publish
-											</>
-										)}
-									</button>
-								</form>
-								<form action={deleteReflection.bind(null, reflection._id)} className="flex-1">
-									<button
-										type="submit"
-										className="w-full rounded-lg border-2 border-red-500/50 bg-[var(--card)] px-4 py-2.5 text-sm font-bold text-red-500 uppercase tracking-wider hover:bg-red-500/10 hover:border-red-500 transition-all flex items-center justify-center gap-2"
-									>
-										<FiTrash2 className="w-4 h-4" />
-										Delete
-									</button>
-								</form>
-							</div>
+							<ReflectionActions
+								reflectionId={reflection._id}
+								isPublished={reflection.isPublished}
+								onTogglePublish={togglePublish.bind(null, reflection._id, reflection.isPublished)}
+								onDelete={deleteReflection.bind(null, reflection._id)}
+							/>
 						</div>
 					))}
 				</div>

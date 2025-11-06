@@ -21,12 +21,18 @@ export default function AdminPageClient({ pending, all }: AdminPageClientProps) 
 					<h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-3 gradient-text">Admin: Prayer Requests</h1>
 					<p className="text-base sm:text-lg text-[var(--muted)] font-medium">Review and manage prayer requests.</p>
 				</div>
-				<div className="flex gap-3">
+				<div className="flex gap-3 flex-wrap">
 					<Link
 						href="/admin/reflections"
 						className="rounded-lg border-2 border-[var(--neon-cyan)] bg-[var(--card)] px-4 py-2 text-sm font-bold text-[var(--neon-cyan)] uppercase tracking-wider hover:bg-[var(--neon-cyan)] hover:text-[var(--background)] transition-all shadow-lg"
 					>
 						Daily Reflections
+					</Link>
+					<Link
+						href="/admin/users"
+						className="rounded-lg border-2 border-[var(--neon-yellow)] bg-[var(--card)] px-4 py-2 text-sm font-bold text-[var(--neon-yellow)] uppercase tracking-wider hover:bg-[var(--neon-yellow)] hover:text-[var(--background)] transition-all shadow-lg"
+					>
+						User Management
 					</Link>
 					<form action={logout}>
 						<button className="rounded-lg border-2 border-[var(--neon-pink)] bg-[var(--card)] px-4 py-2 text-sm font-bold text-[var(--neon-pink)] uppercase tracking-wider hover:bg-[var(--neon-pink)] hover:text-[var(--background)] transition-all shadow-lg">

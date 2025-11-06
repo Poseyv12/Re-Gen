@@ -6,6 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { FiHome, FiSmartphone, FiUser, FiSettings, FiEdit, FiLock, FiMenu, FiX, FiBookOpen, FiMessageCircle } from "react-icons/fi";
+import Tooltip from "@/components/Tooltip";
 
 export default function Navigation() {
 	const { data: session } = useSession();
@@ -85,30 +86,36 @@ export default function Navigation() {
 							{session?.user ? (
 								<div className="hidden md:flex items-center gap-3">
 									<span className="text-sm text-[var(--muted)] font-medium">{session.user.name}</span>
-									<button
-										onClick={() => signOut({ callbackUrl: "/" })}
-										className="rounded-lg border-2 border-[var(--neon-pink)] bg-[var(--card)] px-3 py-1.5 text-xs font-bold text-[var(--neon-pink)] uppercase tracking-wider hover:bg-[var(--neon-pink)] hover:text-[var(--background)] transition-all"
-									>
-										Sign Out
-									</button>
+									<Tooltip content="Sign out of your account" position="bottom">
+										<button
+											onClick={() => signOut({ callbackUrl: "/" })}
+											className="rounded-lg border-2 border-[var(--neon-pink)] bg-[var(--card)] px-3 py-1.5 text-xs font-bold text-[var(--neon-pink)] uppercase tracking-wider hover:bg-[var(--neon-pink)] hover:text-[var(--background)] transition-all"
+										>
+											Sign Out
+										</button>
+									</Tooltip>
 								</div>
 							) : (
-								<Link
-									href="/auth/signin"
-									className="hidden md:block rounded-lg border-2 border-[var(--neon-cyan)] bg-[var(--card)] px-4 py-2 text-xs font-bold text-[var(--neon-cyan)] uppercase tracking-wider hover:bg-[var(--neon-cyan)] hover:text-[var(--background)] transition-all"
-								>
-									Sign In
-								</Link>
+								<Tooltip content="Sign in to access your profile and feed" position="bottom">
+									<Link
+										href="/auth/signin"
+										className="hidden md:block rounded-lg border-2 border-[var(--neon-cyan)] bg-[var(--card)] px-4 py-2 text-xs font-bold text-[var(--neon-cyan)] uppercase tracking-wider hover:bg-[var(--neon-cyan)] hover:text-[var(--background)] transition-all"
+									>
+										Sign In
+									</Link>
+								</Tooltip>
 							)}
 
 							{/* Mobile Menu Button */}
-							<button
-								onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-								className="md:hidden p-2 rounded-lg border-2 border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] hover:border-[var(--neon-cyan)] transition-all"
-								aria-label="Toggle menu"
-							>
-								{mobileMenuOpen ? <FiX className="w-5 h-5" /> : <FiMenu className="w-5 h-5" />}
-							</button>
+							<Tooltip content={mobileMenuOpen ? "Close menu" : "Open menu"} position="bottom">
+								<button
+									onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+									className="md:hidden p-2 rounded-lg border-2 border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] hover:border-[var(--neon-cyan)] transition-all"
+									aria-label="Toggle menu"
+								>
+									{mobileMenuOpen ? <FiX className="w-5 h-5" /> : <FiMenu className="w-5 h-5" />}
+								</button>
+							</Tooltip>
 						</div>
 					</div>
 				</div>

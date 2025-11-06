@@ -107,15 +107,13 @@ export default function Navigation() {
 							)}
 
 							{/* Mobile Menu Button */}
-							<Tooltip content={mobileMenuOpen ? "Close menu" : "Open menu"} position="bottom">
-								<button
-									onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-									className="md:hidden p-2 rounded-lg border-2 border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] hover:border-[var(--neon-cyan)] transition-all"
-									aria-label="Toggle menu"
-								>
-									{mobileMenuOpen ? <FiX className="w-5 h-5" /> : <FiMenu className="w-5 h-5" />}
-								</button>
-							</Tooltip>
+							<button
+								onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+								className="md:hidden p-2 rounded-lg border-2 border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] hover:border-[var(--neon-cyan)] transition-all"
+								aria-label="Toggle menu"
+							>
+								{mobileMenuOpen ? <FiX className="w-5 h-5" /> : <FiMenu className="w-5 h-5" />}
+							</button>
 						</div>
 					</div>
 				</div>

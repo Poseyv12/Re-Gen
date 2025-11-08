@@ -146,3 +146,41 @@ export const queryAllUsers = groq`
     _createdAt
   }
 `;
+
+export const TESTIMONY_FIELDS = `
+  _id,
+  _createdAt,
+  name,
+  isAnonymous,
+  title,
+  content,
+  group,
+  status,
+  encouragedCount,
+  "userId": user._ref,
+  "userName": user->name
+`;
+
+export const queryApprovedTestimonies = groq`
+  *[_type == "testimony" && status == "approved"] | order(_createdAt desc) {
+    ${TESTIMONY_FIELDS}
+  }
+`;
+
+export const queryTestimonyById = groq`
+  *[_type == "testimony" && _id == $id && status == "approved"][0] {
+    ${TESTIMONY_FIELDS}
+  }
+`;
+
+export const queryPendingTestimonies = groq`
+  *[_type == "testimony" && status == "pending"] | order(_createdAt asc) {
+    ${TESTIMONY_FIELDS}
+  }
+`;
+
+export const queryAllTestimonies = groq`
+  *[_type == "testimony"] | order(_createdAt desc) {
+    ${TESTIMONY_FIELDS}
+  }
+`;

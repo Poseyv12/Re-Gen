@@ -99,13 +99,13 @@ export async function POST(request: Request) {
 		}
 
 		const stream = await openai.chat.completions.create({
-			model: "gpt-4o-mini",
+			model: "gpt-5-mini-2025-08-07",
 			messages: [
 				{ role: "system", content: systemPrompt },
 				{ role: "user", content: message.trim() },
 			],
 			temperature: 0.6,
-			max_tokens: 2000,
+			max_tokens: 5000,
 			stream: true,
 		});
 

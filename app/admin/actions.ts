@@ -36,6 +36,23 @@ export async function deletePrayer(id: string) {
 	revalidatePath("/admin");
 }
 
+export async function approveTestimony(id: string) {
+	await writeClient.patch(id).set({ status: "approved" }).commit();
+	revalidatePath("/reflections");
+	revalidatePath("/admin/testimonies");
+}
+
+export async function rejectTestimony(id: string) {
+	await writeClient.patch(id).set({ status: "rejected" }).commit();
+	revalidatePath("/admin/testimonies");
+}
+
+export async function deleteTestimony(id: string) {
+	await writeClient.delete(id);
+	revalidatePath("/reflections");
+	revalidatePath("/admin/testimonies");
+}
+
 export async function logout() {
 	const store = await cookies();
 	store.delete("admin");

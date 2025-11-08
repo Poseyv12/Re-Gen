@@ -23,10 +23,10 @@ export default function AdminPageClient({ pending, all }: AdminPageClientProps) 
 				</div>
 				<div className="flex gap-3 flex-wrap">
 					<Link
-						href="/admin/reflections"
-						className="rounded-lg border-2 border-[var(--neon-cyan)] bg-[var(--card)] px-4 py-2 text-sm font-bold text-[var(--neon-cyan)] uppercase tracking-wider hover:bg-[var(--neon-cyan)] hover:text-[var(--background)] transition-all shadow-lg"
+						href="/admin/testimonies"
+						className="rounded-lg border-2 border-[var(--neon-yellow)] bg-[var(--card)] px-4 py-2 text-sm font-bold text-[var(--neon-yellow)] uppercase tracking-wider hover:bg-[var(--neon-yellow)] hover:text-[var(--background)] transition-all shadow-lg"
 					>
-						Daily Reflections
+						Testimonies
 					</Link>
 					<Link
 						href="/admin/users"

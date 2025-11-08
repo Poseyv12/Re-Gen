@@ -46,12 +46,12 @@ export default function Home() {
 					className="card-hover group rounded-2xl border-2 border-[var(--border)] bg-[var(--card)] p-6 sm:p-8 shadow-lg text-center transition-all min-h-[160px] flex flex-col justify-center"
 				>
 					<div className="mb-3 sm:mb-4 flex justify-center">
-						<FiBookOpen className="w-12 h-12 sm:w-16 sm:h-16 text-[var(--neon-cyan)] group-hover:scale-110 transition-transform" />
+						<FiBookOpen className="w-12 h-12 sm:w-16 sm:h-16 text-[var(--neon-yellow)] group-hover:scale-110 transition-transform" />
 					</div>
-					<h3 className="font-bold text-base sm:text-lg mb-2 group-hover:text-[var(--neon-cyan)] transition-colors uppercase tracking-wider">
-						Daily Reflections
+					<h3 className="font-bold text-base sm:text-lg mb-2 group-hover:text-[var(--neon-yellow)] transition-colors uppercase tracking-wider">
+						Testimonies
 					</h3>
-					<p className="text-xs sm:text-sm text-[var(--muted)]">Daily spiritual guidance and reflections</p>
+					<p className="text-xs sm:text-sm text-[var(--muted)]">Stories of God's work in our lives</p>
 				</a>
 
 				<a

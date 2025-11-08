@@ -10,3 +10,6 @@ export default function ErrorPage({ error }: { error: Error & { digest?: string 
 }
 
 
+
+
+

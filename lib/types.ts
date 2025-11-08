@@ -45,4 +45,20 @@ export interface DailyReflectionDoc {
 	isPublished: boolean;
 }
 
+export type TestimonyStatus = "pending" | "approved" | "rejected";
+
+export interface TestimonyDoc {
+	_id: string;
+	_createdAt: string;
+	name?: string;
+	isAnonymous?: boolean;
+	title?: string;
+	content: any; // Portable Text blocks
+	group?: string;
+	status: TestimonyStatus;
+	encouragedCount?: number;
+	userId?: string;
+	userName?: string;
+}
+
 

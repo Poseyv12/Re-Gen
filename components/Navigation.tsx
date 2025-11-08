@@ -59,8 +59,8 @@ export default function Navigation() {
 								<Link href="/prayers" className="text-sm font-semibold text-[var(--foreground)] hover:text-[var(--neon-cyan)] transition-colors uppercase tracking-wider">
 									Prayer Wall
 								</Link>
-								<Link href="/reflections" className="text-sm font-semibold text-[var(--foreground)] hover:text-[var(--neon-cyan)] transition-colors uppercase tracking-wider">
-									Reflections
+								<Link href="/reflections" className="text-sm font-semibold text-[var(--foreground)] hover:text-[var(--neon-yellow)] transition-colors uppercase tracking-wider">
+									Testimonies
 								</Link>
 								<Link href="/bible-chat" className="text-sm font-semibold text-[var(--foreground)] hover:text-[var(--neon-cyan)] transition-colors uppercase tracking-wider">
 									Re:Gen Chat
@@ -189,12 +189,12 @@ export default function Navigation() {
 									onClick={() => setMobileMenuOpen(false)}
 									className={`flex items-center gap-3 px-4 py-3.5 rounded-xl border-2 transition-all active:scale-95 ${
 										isActive("/reflections")
-											? "border-[var(--neon-cyan)] bg-[var(--neon-cyan)]/20 text-[var(--neon-cyan)] shadow-lg shadow-[var(--neon-cyan)]/20"
-											: "border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] hover:border-[var(--neon-cyan)] hover:bg-[var(--neon-cyan)]/5"
+											? "border-[var(--neon-yellow)] bg-[var(--neon-yellow)]/20 text-[var(--neon-yellow)] shadow-lg shadow-[var(--neon-yellow)]/20"
+											: "border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] hover:border-[var(--neon-yellow)] hover:bg-[var(--neon-yellow)]/5"
 									}`}
 								>
-									<FiBookOpen className={`w-5 h-5 flex-shrink-0 ${isActive("/reflections") ? "text-[var(--neon-cyan)]" : ""}`} />
-									<span className="font-semibold">Reflections</span>
+									<FiBookOpen className={`w-5 h-5 flex-shrink-0 ${isActive("/reflections") ? "text-[var(--neon-yellow)]" : ""}`} />
+									<span className="font-semibold">Testimonies</span>
 								</Link>
 								<Link
 									href="/bible-chat"

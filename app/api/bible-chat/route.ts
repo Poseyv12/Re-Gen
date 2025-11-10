@@ -98,44 +98,23 @@ export async function POST(request: Request) {
 			return NextResponse.json({ error: "AI service is not configured" }, { status: 500 });
 		}
 
-		const stream = await openai.chat.completions.create({
+		const completion = await openai.chat.completions.create({
 			model: "gpt-5-mini-2025-08-07",
 			messages: [
 				{ role: "system", content: systemPrompt },
 				{ role: "user", content: message.trim() },
 			],
-			temperature: 0.6,
-			max_tokens: 5000,
-			stream: true,
+			temperature: 1,
+			max_completion_tokens: 5000,
 		});
 
-		const encoder = new TextEncoder();
-		const readableStream = new ReadableStream({
-			async start(controller) {
-				try {
-					for await (const chunk of stream) {
-						const content = chunk.choices[0]?.delta?.content || "";
-						if (content) {
-							controller.enqueue(encoder.encode(`data: ${JSON.stringify({ content })}\n\n`));
-						}
-					}
-					controller.enqueue(encoder.encode(`data: [DONE]\n\n`));
-					controller.close();
-				} catch (error: any) {
-					console.error("Streaming error:", error);
-					controller.enqueue(encoder.encode(`data: ${JSON.stringify({ error: error.message || "Streaming error" })}\n\n`));
-					controller.close();
-				}
-			},
-		});
+		const content = completion.choices[0]?.message?.content || "";
 
-		return new Response(readableStream, {
-			headers: {
-				"Content-Type": "text/event-stream",
-				"Cache-Control": "no-cache",
-				"Connection": "keep-alive",
-			},
-		});
+		if (!content) {
+			return NextResponse.json({ error: "No response from AI" }, { status: 500 });
+		}
+
+		return NextResponse.json({ content });
 	} catch (error: any) {
 		console.error("Bible chat error:", error);
 		

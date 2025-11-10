@@ -5,7 +5,7 @@ import type { PrayerRequestDoc } from "@/lib/types";
 import { PortableText } from "@portabletext/react";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { FiUsers } from "react-icons/fi";
+import { FiUsers, FiCheckCircle } from "react-icons/fi";
 import PrayerButton from "../prayers/PrayerButton";
 import UserAvatar from "../prayers/UserAvatar";
 
@@ -77,11 +77,19 @@ export default async function FeedPage() {
 										)}
 									</div>
 								</div>
-								<h3 className="text-lg sm:text-2xl font-bold text-[var(--foreground)] mb-2 sm:mb-3">
-									<Link href={`/prayers/${prayer._id}`} className="hover:text-[var(--neon-cyan)] transition-colors line-clamp-2">
-										{prayer.title || "Prayer Request"}
-									</Link>
-								</h3>
+								<div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3 flex-wrap">
+									<h3 className="text-lg sm:text-2xl font-bold text-[var(--foreground)]">
+										<Link href={`/prayers/${prayer._id}`} className="hover:text-[var(--neon-cyan)] transition-colors line-clamp-2">
+											{prayer.title || "Prayer Request"}
+										</Link>
+									</h3>
+									{prayer.isAnswered && (
+										<span className="inline-flex items-center gap-1 rounded-full bg-[var(--neon-yellow)]/20 px-2 sm:px-3 py-0.5 sm:py-1 text-xs sm:text-sm font-bold text-[var(--neon-yellow)] border border-[var(--neon-yellow)]/30 flex-shrink-0">
+											<FiCheckCircle className="w-3 h-3 sm:w-4 sm:h-4" />
+											Answered
+										</span>
+									)}
+								</div>
 							</header>
 
 							<div className="prose prose-zinc max-w-none mb-4 sm:mb-6 text-[var(--foreground)] leading-relaxed prose-invert prose-sm sm:prose-base prose-p:mb-3 sm:prose-p:mb-4 line-clamp-4">

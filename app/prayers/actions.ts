@@ -186,3 +186,50 @@ export async function replyToComment(commentId: string, prayerId: string, conten
 		throw new Error("Failed to reply to comment");
 	}
 }
+
+export async function markPrayerAsAnswered(prayerId: string) {
+	try {
+		const user = await getCurrentUser();
+		if (!user?.id) {
+			throw new Error("Unauthorized");
+		}
+
+		// Get the prayer request to verify ownership
+		const prayer = await writeClient.fetch<{ user?: { _ref?: string }; userId?: string }>(
+			`*[_id == $id][0]{
+				user,
+				"userId": user._ref
+			}`,
+			{ id: prayerId }
+		);
+
+		if (!prayer) {
+			throw new Error("Prayer request not found");
+		}
+
+		// Check if user is the owner
+		const isOwner = prayer.userId === user.id;
+
+		if (!isOwner) {
+			throw new Error("Only the prayer request owner can mark it as answered");
+		}
+
+		// Mark as answered
+		await writeClient
+			.patch(prayerId)
+			.set({
+				isAnswered: true,
+				answeredAt: new Date().toISOString(),
+			})
+			.commit();
+
+		revalidatePath("/prayers");
+		revalidatePath(`/prayers/${prayerId}`);
+		revalidatePath("/profile");
+
+		return { success: true };
+	} catch (error: any) {
+		console.error("Error marking prayer as answered:", error);
+		throw new Error(error.message || "Failed to mark prayer as answered");
+	}
+}

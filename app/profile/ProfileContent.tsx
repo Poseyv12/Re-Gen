@@ -3,9 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { PortableText } from "@portabletext/react";
-import { FiHeart } from "react-icons/fi";
+import { FiHeart, FiCheckCircle } from "react-icons/fi";
 import type { PrayerRequestDoc } from "@/lib/types";
 import PrayerButton from "../prayers/PrayerButton";
+import MarkAnsweredButton from "../prayers/MarkAnsweredButton";
 import ProfileTabs from "./ProfileTabs";
 import SettingsSection from "./SettingsSection";
 
@@ -55,11 +56,19 @@ export default function ProfileContent({ prayers, profile }: ProfileContentProps
 								>
 									<header className="mb-3 sm:mb-4 flex items-start justify-between gap-2 sm:gap-3">
 										<div className="flex-1 min-w-0">
-											<h3 className="text-lg sm:text-xl font-bold text-[var(--foreground)] mb-2 line-clamp-2">
-												<Link href={`/prayers/${prayer._id}`} className="hover:text-[var(--neon-cyan)] transition-colors">
-													{prayer.title || "Prayer Request"}
-												</Link>
-											</h3>
+											<div className="flex items-center gap-2 mb-2 flex-wrap">
+												<h3 className="text-lg sm:text-xl font-bold text-[var(--foreground)] line-clamp-2">
+													<Link href={`/prayers/${prayer._id}`} className="hover:text-[var(--neon-cyan)] transition-colors">
+														{prayer.title || "Prayer Request"}
+													</Link>
+												</h3>
+												{prayer.isAnswered && (
+													<span className="inline-flex items-center gap-1 rounded-full bg-[var(--neon-yellow)]/20 px-2 py-0.5 text-xs font-bold text-[var(--neon-yellow)] border border-[var(--neon-yellow)]/30 flex-shrink-0">
+														<FiCheckCircle className="w-3 h-3" />
+														Answered
+													</span>
+												)}
+											</div>
 											<div className="flex flex-wrap items-center gap-2 text-xs text-[var(--muted)] font-medium">
 												<span className="whitespace-nowrap">
 													{new Date(prayer._createdAt).toLocaleDateString("en-US", {
@@ -81,14 +90,19 @@ export default function ProfileContent({ prayers, profile }: ProfileContentProps
 										<PortableText value={prayer.content} />
 									</div>
 
-									<footer className="flex items-center justify-between pt-3 sm:pt-4 border-t border-[var(--border)]">
-										<PrayerButton prayerId={prayer._id} initialCount={prayer.prayedCount || 0} />
-										<Link
-											href={`/prayers/${prayer._id}`}
-											className="text-xs sm:text-sm text-[var(--neon-cyan)] hover:text-[var(--neon-pink)] font-bold transition-colors uppercase tracking-wider"
-										>
-											View →
-										</Link>
+									<footer className="flex flex-col gap-3 sm:gap-4 pt-3 sm:pt-4 border-t border-[var(--border)]">
+										<div className="flex items-center justify-between">
+											<PrayerButton prayerId={prayer._id} initialCount={prayer.prayedCount || 0} />
+											<Link
+												href={`/prayers/${prayer._id}`}
+												className="text-xs sm:text-sm text-[var(--neon-cyan)] hover:text-[var(--neon-pink)] font-bold transition-colors uppercase tracking-wider"
+											>
+												View →
+											</Link>
+										</div>
+										<div className="flex justify-end">
+											<MarkAnsweredButton prayerId={prayer._id} isAnswered={prayer.isAnswered || false} answeredAt={prayer.answeredAt} />
+										</div>
 									</footer>
 								</article>
 							))}

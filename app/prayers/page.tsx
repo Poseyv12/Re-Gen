@@ -4,7 +4,7 @@ import type { PrayerRequestDoc } from "@/lib/types";
 import { PortableText } from "@portabletext/react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FiHeart, FiHeart as FiPrayer } from "react-icons/fi";
+import { FiHeart, FiHeart as FiPrayer, FiCheckCircle } from "react-icons/fi";
 import PrayerButton from "./PrayerButton";
 import UserAvatar from "./UserAvatar";
 
@@ -47,9 +47,17 @@ export default async function PrayerWallPage() {
 						>
 							<header className="mb-3 sm:mb-4 flex items-start justify-between gap-2 sm:gap-3">
 								<div className="flex-1 min-w-0">
-									<h2 className="text-base sm:text-lg font-bold text-[var(--foreground)] group-hover:text-[var(--neon-cyan)] transition-colors mb-2 line-clamp-2">
-										{p.title || "Prayer Request"}
-									</h2>
+									<div className="flex items-center gap-2 mb-2 flex-wrap">
+										<h2 className="text-base sm:text-lg font-bold text-[var(--foreground)] group-hover:text-[var(--neon-cyan)] transition-colors line-clamp-2">
+											{p.title || "Prayer Request"}
+										</h2>
+										{p.isAnswered && (
+											<span className="inline-flex items-center gap-1 rounded-full bg-[var(--neon-yellow)]/20 px-2 py-0.5 text-xs font-bold text-[var(--neon-yellow)] border border-[var(--neon-yellow)]/30 flex-shrink-0">
+												<FiCheckCircle className="w-3 h-3" />
+												Answered
+											</span>
+										)}
+									</div>
 									<div className="flex flex-wrap items-center gap-2 text-xs text-[var(--muted)] font-medium">
 										<span className="whitespace-nowrap">
 											{new Date(p._createdAt).toLocaleDateString("en-US", {

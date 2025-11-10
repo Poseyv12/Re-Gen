@@ -82,6 +82,19 @@ export default defineType({
 			initialValue: 0,
 			validation: (Rule) => Rule.min(0).integer(),
 		}),
+		defineField({
+			name: "isAnswered",
+			type: "boolean",
+			title: "Prayer Answered",
+			description: "If checked, this prayer has been answered",
+			initialValue: false,
+		}),
+		defineField({
+			name: "answeredAt",
+			type: "datetime",
+			title: "Answered At",
+			description: "Date and time when the prayer was marked as answered",
+		}),
 	],
 });
 

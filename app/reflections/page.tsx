@@ -49,10 +49,10 @@ export default async function TestimoniesPage() {
 			) : (
 				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
 					{testimonies.map((testimony) => (
-						<article
+							<article
 							key={testimony._id}
 							className="testimony-card card-hover group rounded-2xl border-2 border-[var(--border)] bg-[var(--card)] p-4 sm:p-6 shadow-lg transition-all"
-						>
+							>
 							<header className="mb-3 sm:mb-4 flex items-start justify-between gap-2 sm:gap-3">
 								<div className="flex-1 min-w-0">
 									<h2 className="text-base sm:text-lg font-bold text-[var(--foreground)] group-hover:text-[var(--neon-yellow)] transition-colors mb-2 line-clamp-2">
@@ -63,7 +63,7 @@ export default async function TestimoniesPage() {
 											{new Date(testimony._createdAt).toLocaleDateString("en-US", {
 												month: "short",
 												day: "numeric",
-												year: "numeric",
+											year: "numeric",
 											})}
 										</span>
 										{testimony.group && (
@@ -96,8 +96,8 @@ export default async function TestimoniesPage() {
 									</span>
 								)}
 							</footer>
-						</article>
-					))}
+							</article>
+						))}
 				</div>
 			)}
 		</div>

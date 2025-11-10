@@ -10,6 +10,8 @@ export const PRAYER_FIELDS = `
   group,
   status,
   prayedCount,
+  isAnswered,
+  answeredAt,
   "userId": user._ref,
   "userName": user->name
 `;

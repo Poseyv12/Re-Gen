@@ -5,7 +5,7 @@ import { PortableText } from "@portabletext/react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { FiHeart, FiMessageCircle } from "react-icons/fi";
+import { FiHeart, FiMessageCircle, FiCheckCircle } from "react-icons/fi";
 import PrayerButton from "../PrayerButton";
 import CommentSection from "../CommentSection";
 import UserAvatar from "../UserAvatar";
@@ -50,9 +50,17 @@ export default async function PrayerDetailPage({ params }: Props) {
 			<article className="prayer-card rounded-2xl border-2 border-[var(--border)] bg-[var(--card)] p-4 sm:p-8 shadow-lg">
 				<header className="mb-4 sm:mb-6 flex items-start justify-between gap-3 sm:gap-4">
 					<div className="flex-1 min-w-0">
-						<h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[var(--foreground)] mb-2 sm:mb-3 gradient-text">
-							{prayer.title || "Prayer Request"}
-						</h1>
+						<div className="flex items-center gap-3 mb-2 sm:mb-3 flex-wrap">
+							<h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[var(--foreground)] gradient-text">
+								{prayer.title || "Prayer Request"}
+							</h1>
+							{prayer.isAnswered && (
+								<span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--neon-yellow)]/20 px-3 py-1 text-xs sm:text-sm font-bold text-[var(--neon-yellow)] border border-[var(--neon-yellow)]/30">
+									<FiCheckCircle className="w-4 h-4" />
+									Answered
+								</span>
+							)}
+						</div>
 						<div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm text-[var(--muted)] font-medium">
 							<span className="whitespace-nowrap">
 								{new Date(prayer._createdAt).toLocaleDateString("en-US", {
@@ -96,7 +104,9 @@ export default async function PrayerDetailPage({ params }: Props) {
 							)}
 						</div>
 					</div>
-					<PrayerButton prayerId={prayer._id} initialCount={prayer.prayedCount || 0} />
+					<div className="flex items-center gap-3">
+						<PrayerButton prayerId={prayer._id} initialCount={prayer.prayedCount || 0} />
+					</div>
 				</footer>
 
 				<div className="pt-4 sm:pt-6 border-t border-[var(--border)]">

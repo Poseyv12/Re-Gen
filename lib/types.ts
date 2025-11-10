@@ -29,6 +29,8 @@ export interface PrayerRequestDoc {
 	group?: string;
 	status: PrayerStatus;
 	prayedCount?: number;
+	isAnswered?: boolean;
+	answeredAt?: string;
 	comments?: Comment[];
 	userId?: string;
 	userName?: string;

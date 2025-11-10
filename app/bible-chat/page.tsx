@@ -49,18 +49,6 @@ export default function BibleChatPage() {
 		setInput("");
 		setLoading(true);
 
-		// Create assistant message placeholder
-		const assistantMessageId = (Date.now() + 1).toString();
-		const assistantMessage: Message = {
-			id: assistantMessageId,
-			role: "assistant",
-			content: "",
-			timestamp: new Date(),
-		};
-
-		setMessages((prev) => [...prev, assistantMessage]);
-		setLoading(false); // Hide loading indicator since we're streaming
-
 		try {
 			const response = await fetch("/api/bible-chat", {
 				method: "POST",
@@ -73,67 +61,32 @@ export default function BibleChatPage() {
 				throw new Error(errorData.error || "Failed to get response");
 			}
 
-			if (!response.body) {
-				throw new Error("No response body");
+			const data = await response.json();
+
+			if (data.error) {
+				throw new Error(data.error);
 			}
 
-			const reader = response.body.getReader();
-			const decoder = new TextDecoder();
-			let buffer = "";
+			const assistantMessage: Message = {
+				id: Date.now().toString(),
+				role: "assistant",
+				content: data.content || "Sorry, I couldn't generate a response.",
+				timestamp: new Date(),
+			};
 
-			while (true) {
-				const { done, value } = await reader.read();
-
-				if (done) break;
-
-				buffer += decoder.decode(value, { stream: true });
-				const lines = buffer.split("\n\n");
-				buffer = lines.pop() || "";
-
-				for (const line of lines) {
-					if (line.startsWith("data: ")) {
-						const data = line.slice(6);
-						if (data === "[DONE]") {
-							inputRef.current?.focus();
-							return;
-						}
-
-						try {
-							const parsed = JSON.parse(data);
-							if (parsed.error) {
-								throw new Error(parsed.error);
-							}
-							if (parsed.content) {
-								setMessages((prev) =>
-									prev.map((msg) =>
-										msg.id === assistantMessageId
-											? { ...msg, content: msg.content + parsed.content }
-											: msg
-									)
-								);
-								// Auto-scroll as content streams in
-								setTimeout(() => scrollToBottom(), 50);
-							}
-						} catch (parseError) {
-							// Ignore JSON parse errors for incomplete chunks
-						}
-					}
-				}
-			}
-
+			setMessages((prev) => [...prev, assistantMessage]);
 			inputRef.current?.focus();
 		} catch (error: any) {
-			setMessages((prev) =>
-				prev.map((msg) =>
-					msg.id === assistantMessageId
-						? {
-								...msg,
-								content: `Sorry, I encountered an error: ${error.message || "Please try again later."}`,
-							}
-						: msg
-				)
-			);
+			const errorMessage: Message = {
+				id: Date.now().toString(),
+				role: "assistant",
+				content: `Sorry, I encountered an error: ${error.message || "Please try again later."}`,
+				timestamp: new Date(),
+			};
+			setMessages((prev) => [...prev, errorMessage]);
 			inputRef.current?.focus();
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -190,20 +143,12 @@ export default function BibleChatPage() {
 									}`}
 								>
 									{message.role === "assistant" ? (
-										message.content ? (
-											<div
-												className="prose prose-zinc max-w-none text-[var(--foreground)] leading-relaxed prose-invert prose-sm sm:prose-base prose-p:my-2 prose-p:first:mt-0 prose-p:last:mb-0 prose-headings:mt-3 prose-headings:mb-2 prose-headings:first:mt-0 prose-ul:my-2 prose-ol:my-2 prose-li:my-1 prose-strong:text-[var(--foreground)] prose-a:text-[var(--neon-cyan)] prose-a:underline prose-code:text-[var(--neon-pink)] prose-code:bg-[var(--card)] prose-code:px-1 prose-code:rounded prose-pre:bg-[var(--card)] prose-pre:border prose-pre:border-[var(--border)] prose-pre:rounded-lg prose-pre:overflow-x-auto"
-												dangerouslySetInnerHTML={{
-													__html: marked.parse(message.content) as string,
-												}}
-											/>
-										) : (
-											<div className="flex items-center gap-2 text-[var(--muted)]">
-												<div className="w-2 h-2 bg-[var(--neon-cyan)] rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-												<div className="w-2 h-2 bg-[var(--neon-cyan)] rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-												<div className="w-2 h-2 bg-[var(--neon-cyan)] rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
-											</div>
-										)
+										<div
+											className="prose prose-zinc max-w-none text-[var(--foreground)] leading-relaxed prose-invert prose-sm sm:prose-base prose-p:my-2 prose-p:first:mt-0 prose-p:last:mb-0 prose-headings:mt-3 prose-headings:mb-2 prose-headings:first:mt-0 prose-ul:my-2 prose-ol:my-2 prose-li:my-1 prose-strong:text-[var(--foreground)] prose-a:text-[var(--neon-cyan)] prose-a:underline prose-code:text-[var(--neon-pink)] prose-code:bg-[var(--card)] prose-code:px-1 prose-code:rounded prose-pre:bg-[var(--card)] prose-pre:border prose-pre:border-[var(--border)] prose-pre:rounded-lg prose-pre:overflow-x-auto"
+											dangerouslySetInnerHTML={{
+												__html: marked.parse(message.content) as string,
+											}}
+										/>
 									) : (
 										<div className="text-sm sm:text-base whitespace-pre-wrap leading-relaxed">{message.content}</div>
 									)}

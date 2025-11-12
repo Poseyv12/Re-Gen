@@ -294,6 +294,22 @@ h3 {
 	animation: slide-up 0.3s ease-out;
 }
 
+/* Loading indicator pulse wave animation */
+@keyframes pulse-wave {
+	0%, 60%, 100% {
+		opacity: 0.3;
+		transform: scale(0.8);
+	}
+	30% {
+		opacity: 1;
+		transform: scale(1.2);
+	}
+}
+
+.loading-dot {
+	animation: pulse-wave 1.4s ease-in-out infinite;
+}
+
 /* Markdown content spacing */
 .prose p {
 	margin-top: 1em;
